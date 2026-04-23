@@ -10,3 +10,7 @@
 	path = meta-openembedded
 	url = https://git.openembedded.org/meta-openembedded
 	branch = master
+[submodule "meta-virtualization"]
+	path = meta-virtualization
+	url = https://git.yoctoproject.org/meta-virtualization
+	branch = master
