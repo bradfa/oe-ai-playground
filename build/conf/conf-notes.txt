@@ -4,12 +4,7 @@
 You can now run 'bitbake <target>'
 
 Common targets are:
-    core-image-minimal
-    core-image-full-cmdline
-    core-image-sato
-    core-image-weston
-    meta-toolchain
-    meta-ide-support
+    bradfa-container-minimal-image
 
 You can also run generated qemu images with a command like 'runqemu qemux86-64'.
 
