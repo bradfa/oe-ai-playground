@@ -1,8 +1,11 @@
-# Sets org.opencontainers.image.ref.name in the OCI index.json to
-# IMAGE_BASENAME:OCI_IMAGE_TAG so that podman load imports the image
-# with a recognisable name rather than the default "localhost/latest".
+# Set org.opencontainers.image.ref.name in the OCI index.json to
+# IMAGE_BASENAME:OCI_IMAGE_TAG so that podman load imports the image with a
+# recognisable name rather than the default "localhost/latest" and also sets
+# the image created timestamp to the image build time so it shows up sensibly
+# in `podman image ls`.
 #
-# jq-native is already a do_image_oci dependency via image-oci.bbclass.
+# jq-native and umoci-native are already do_image_oci dependencies
+# via image-oci.bbclass.
 
 do_set_oci_ref_name() {
     local image_name="${IMAGE_NAME}${IMAGE_NAME_SUFFIX}-oci"
@@ -15,6 +18,12 @@ do_set_oci_ref_name() {
         bbwarn "oci-image-name: index.json not found at $index, skipping"
         return
     fi
+
+    # Set the created timestamp to actual build time. umoci handles updating
+    # the config blob, manifest, and index.json internally.
+    local build_date="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+    bbnote "oci-image-name: Setting created timestamp to $build_date"
+    umoci config --image "$oci_dir:${OCI_IMAGE_TAG}" --created "$build_date"
 
     bbnote "oci-image-name: Setting ref name to $ref_name"
     jq --arg ref "$ref_name" \
