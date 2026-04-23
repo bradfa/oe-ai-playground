@@ -14,3 +14,7 @@
 	path = meta-virtualization
 	url = https://git.yoctoproject.org/meta-virtualization
 	branch = master
+[submodule "meta-ai"]
+	path = meta-ai
+	url = https://github.com/qualcomm-linux/meta-ai.git
+	branch = main
