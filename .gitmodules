@@ -6,3 +6,7 @@
 	path = bitbake
 	url = https://git.openembedded.org/bitbake
 	branch = master
+[submodule "meta-openembedded"]
+	path = meta-openembedded
+	url = https://git.openembedded.org/meta-openembedded
+	branch = master
