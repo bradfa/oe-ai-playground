@@ -15,23 +15,23 @@ do_set_oci_ref_name() {
     local tar_file="${IMGDEPLOYDIR}/$image_name.tar"
 
     if [ ! -f "$index" ]; then
-        bbwarn "oci-image-name: index.json not found at $index, skipping"
+        bbwarn "oci-image-adjust: index.json not found at $index, skipping"
         return
     fi
 
     # Set the created timestamp to actual build time. umoci handles updating
     # the config blob, manifest, and index.json internally.
     local build_date="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-    bbnote "oci-image-name: Setting created timestamp to $build_date"
+    bbnote "oci-image-adjust: Setting created timestamp to $build_date"
     umoci config --image "$oci_dir:${OCI_IMAGE_TAG}" --created "$build_date"
 
-    bbnote "oci-image-name: Setting ref name to $ref_name"
+    bbnote "oci-image-adjust: Setting ref name to $ref_name"
     jq --arg ref "$ref_name" \
         '.manifests[].annotations["org.opencontainers.image.ref.name"] = $ref' \
         "$index" > "$index.new" && mv "$index.new" "$index"
 
     if [ -f "$tar_file" ]; then
-        bbnote "oci-image-name: Rebuilding OCI tar"
+        bbnote "oci-image-adjust: Rebuilding OCI tar"
         (cd "$oci_dir" && tar -cf "$tar_file" ".")
     fi
 }

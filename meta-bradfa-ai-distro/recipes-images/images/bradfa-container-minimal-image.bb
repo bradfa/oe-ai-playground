@@ -6,7 +6,7 @@ IMAGE_FSTYPES = "container oci"
 
 inherit image
 inherit image-oci
-inherit oci-image-name
+inherit oci-image-adjust
 
 IMAGE_FEATURES = ""
 IMAGE_LINGUAS = ""
