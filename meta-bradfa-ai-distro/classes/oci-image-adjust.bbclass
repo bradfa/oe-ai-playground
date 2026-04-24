@@ -1,6 +1,6 @@
 # Set org.opencontainers.image.ref.name in the OCI index.json to
 # IMAGE_BASENAME:OCI_IMAGE_TAG so that podman load imports the image with a
-# recognisable name rather than the default "localhost/latest" and also sets
+# recognizable name rather than the default "localhost/latest" and also sets
 # the image created timestamp to the image build time so it shows up sensibly
 # in `podman image ls`.
 #
