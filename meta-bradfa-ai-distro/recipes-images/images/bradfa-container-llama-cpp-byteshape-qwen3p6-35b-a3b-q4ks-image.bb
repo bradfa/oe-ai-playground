@@ -15,3 +15,5 @@ inherit llama-cpp-container-image
 LLAMA_MODEL_PACKAGE = "byteshape-qwen3p6-35b-a3b-gguf-q4ks"
 
 LLAMA_MODEL_FILE = "Qwen3.6-35B-A3B-Q4_K_S-4.22bpw.gguf"
+LLAMA_CTX_SIZE = "262144"
+LLAMA_REASONING_BUDGET = "9000"
