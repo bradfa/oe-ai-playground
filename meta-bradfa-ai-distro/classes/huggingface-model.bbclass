@@ -45,6 +45,10 @@ HF_FILE_BASENAME = "${@os.path.basename(d.getVar('HF_FILE'))}"
 
 SRC_URI = "https://huggingface.co/${HF_ORG}/${HF_REPO}/resolve/${HF_COMMIT}/${HF_FILE};name=model"
 
+# The fetched file lands directly in UNPACKDIR with no subdirectory; override S
+# so BitBake does not warn about the default ${UNPACKDIR}/${BP} path not existing.
+S = "${UNPACKDIR}"
+
 inherit allarch
 
 do_install() {
