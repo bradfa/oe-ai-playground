@@ -5,10 +5,10 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
 inherit llama-cpp-container-image
 
 # llama-server listens on port 8080 by default. To run the container and expose
-# the API on the host:
+# the API on the host, run directly from the OCI layout in the deploy directory:
 #
-#   podman run --rm -p 8080:8080 <image>
-#   docker run --rm -p 8080:8080 <image>
+#   podman run --rm -p 8080:8080 \
+#     oci:/path/to/build/tmp/deploy/images/qemux86-64/bradfa-container-llama-cpp-qwen3p5-0p8b-image-latest-oci:latest
 #
 # The OpenAI-compatible API is then reachable at http://localhost:8080/v1
 

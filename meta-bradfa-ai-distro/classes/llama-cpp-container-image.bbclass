@@ -31,6 +31,13 @@
 #   IMAGE_INSTALL:append  - add the model package, e.g.:
 #                           IMAGE_INSTALL:append = " unsloth-qwen3p5-0p8b-gguf-bf16"
 #
+# Running the image:
+#   The build produces an OCI image layout directory in deploy/images/. Use the
+#   oci: transport to run it directly without importing into the local store:
+#
+#   podman run --rm -p 8080:8080 \
+#     oci:/path/to/build/tmp/deploy/images/<machine>/<image-name>-latest-oci:latest
+#
 # Minimal recipe example:
 #
 #   SUMMARY = "Container image running llama-server with Qwen3.5-0.8B"
