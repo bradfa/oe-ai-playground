@@ -12,6 +12,6 @@ inherit llama-cpp-container-image
 #
 # The OpenAI-compatible API is then reachable at http://localhost:8080/v1
 
-IMAGE_INSTALL:append = " unsloth-qwen3p5-0p8b-gguf-bf16"
+LLAMA_MODEL_PACKAGE = "unsloth-qwen3p5-0p8b-gguf-bf16"
 
 LLAMA_MODEL_FILE = "Qwen3.5-0.8B-BF16.gguf"

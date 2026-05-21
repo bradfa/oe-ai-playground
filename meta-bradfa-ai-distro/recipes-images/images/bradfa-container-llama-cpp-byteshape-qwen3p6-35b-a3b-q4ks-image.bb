@@ -12,6 +12,6 @@ inherit llama-cpp-container-image
 #
 # The OpenAI-compatible API is then reachable at http://localhost:8080/v1
 
-IMAGE_INSTALL:append = " byteshape-qwen3p6-35b-a3b-gguf-q4ks"
+LLAMA_MODEL_PACKAGE = "byteshape-qwen3p6-35b-a3b-gguf-q4ks"
 
 LLAMA_MODEL_FILE = "Qwen3.6-35B-A3B-Q4_K_S-4.22bpw.gguf"

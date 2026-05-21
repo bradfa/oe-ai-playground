@@ -4,9 +4,14 @@
 # Provides all image boilerplate so a recipe only needs to specify the model.
 #
 # Required variables:
-#   LLAMA_MODEL_FILE - Filename of the model as installed on the target,
-#                      e.g. "Qwen3.5-0.8B-BF16.gguf".
-#                      Must match HF_FILE_BASENAME from the model recipe.
+#   LLAMA_MODEL_FILE    - Filename of the model as installed on the target,
+#                         e.g. "Qwen3.5-0.8B-BF16.gguf".
+#                         Must match HF_FILE_BASENAME from the model recipe.
+#   LLAMA_MODEL_PACKAGE - Name of the huggingface-model recipe that provides
+#                         the model file, e.g. "unsloth-qwen3p5-0p8b-gguf-bf16".
+#                         Used to declare a task dependency on do_deploy so the
+#                         model file is available when the rootfs is assembled.
+#                         Do NOT use IMAGE_INSTALL for model packages.
 #
 # Optional variables:
 #   LLAMA_MODEL_DIR        - Directory where the model file is installed.
@@ -28,8 +33,6 @@
 #
 # The recipe must also set:
 #   LICENSE, LIC_FILES_CHKSUM
-#   IMAGE_INSTALL:append  - add the model package, e.g.:
-#                           IMAGE_INSTALL:append = " unsloth-qwen3p5-0p8b-gguf-bf16"
 #
 # Running the image:
 #   The build produces an OCI image layout directory in deploy/images/. Use the
@@ -46,9 +49,8 @@
 #
 #   inherit llama-cpp-container-image
 #
-#   IMAGE_INSTALL:append = " unsloth-qwen3p5-0p8b-gguf-bf16"
-#
-#   LLAMA_MODEL_FILE = "Qwen3.5-0.8B-BF16.gguf"
+#   LLAMA_MODEL_PACKAGE = "unsloth-qwen3p5-0p8b-gguf-bf16"
+#   LLAMA_MODEL_FILE    = "Qwen3.5-0.8B-BF16.gguf"
 #
 # Image recipe naming convention:
 #   <namespace>-container-llama-cpp-<model-id>-image.bb
@@ -78,6 +80,7 @@ IMAGE_INSTALL = " \
     netbase \
 "
 
+LLAMA_MODEL_PACKAGE ?= ""
 LLAMA_MODEL_DIR ?= "${datadir}/llama-cpp/models"
 LLAMA_HOST ?= "0.0.0.0"
 LLAMA_CTX_SIZE ?= "16384"
@@ -100,6 +103,23 @@ OCI_IMAGE_CMD = "/usr/bin/llama-server \
     --min-p ${LLAMA_MIN_P} \
     --reasoning-budget ${LLAMA_REASONING_BUDGET} \
     ${LLAMA_EXTRA_ARGS}"
+
+# Wire up the model deploy dependency and rootfs install when LLAMA_MODEL_PACKAGE
+# is set. The model file is copied directly from DEPLOY_DIR_IMAGE into the rootfs,
+# bypassing the package manager (see huggingface-model.bbclass for rationale).
+python () {
+    model_pkg = d.getVar('LLAMA_MODEL_PACKAGE')
+    if model_pkg:
+        d.appendVarFlag('do_rootfs', 'depends', ' %s:do_deploy' % model_pkg)
+        d.appendVar('ROOTFS_POSTPROCESS_COMMAND', ' install_llama_model ; ')
+}
+
+install_llama_model () {
+    install -d ${IMAGE_ROOTFS}${LLAMA_MODEL_DIR}
+    install -m 0644 \
+        "${DEPLOY_DIR_IMAGE}${LLAMA_MODEL_DIR}/${LLAMA_MODEL_FILE}" \
+        "${IMAGE_ROOTFS}${LLAMA_MODEL_DIR}/"
+}
 
 # /var/volatile directories are not created without postinstall scripts running
 ROOTFS_POSTPROCESS_COMMAND += "rootfs_fixup_var_volatile ; "
