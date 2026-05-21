@@ -25,8 +25,8 @@ Install the OE build host dependencies listed in the
 [Yocto Project system requirements](https://docs.yoctoproject.org/singleindex.html#system-requirements).
 
 Also required:
-- `podman` — to run the built container images
-- `curl` and `jq` — for the helper scripts
+- `podman` - to run the built container images
+- `curl` and `jq` - for the helper scripts
 
 ## Getting Started
 
@@ -128,7 +128,7 @@ Encapsulates all llama-server image boilerplate: `IMAGE_FSTYPES`, `IMAGE_INSTALL
 only needs to set `LLAMA_MODEL_PACKAGE`, `LLAMA_MODEL_FILE`, and any inference parameter
 overrides (`LLAMA_CTX_SIZE`, `LLAMA_REASONING_BUDGET`, etc.).
 
-**Do not use `IMAGE_INSTALL` for model packages.** Set `LLAMA_MODEL_PACKAGE` instead — the
+**Do not use `IMAGE_INSTALL` for model packages.** Set `LLAMA_MODEL_PACKAGE` instead - the
 class wires up the `do_deploy` dependency and installs the model file from `DEPLOY_DIR_IMAGE`
 via `ROOTFS_POSTPROCESS_COMMAND`.
 
@@ -150,7 +150,7 @@ inherit it directly in image recipes.
    meta-bradfa-ai-distro/recipes-llm-models/<org>/<org>-<model>-<size>-<format>-<quant>_1.0.bb
    ```
 
-   Set `SRC_URI[model.sha256sum] = ""` on first build — BitBake will report the correct value
+   Set `SRC_URI[model.sha256sum] = ""` on first build - BitBake will report the correct value
    in the fetch error.
 
 4. Create an image recipe:

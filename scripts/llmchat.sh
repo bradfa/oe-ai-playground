@@ -89,7 +89,7 @@ while true; do
     RESPONSE=$(printf '%s' "$HTTP_BODY" | sed '$d')
 
     if [[ $CURL_EXIT -ne 0 ]]; then
-        echo "[Error: curl failed (exit ${CURL_EXIT}) — server unreachable or connection refused]" >&2
+        echo "[Error: curl failed (exit ${CURL_EXIT}) - server unreachable or connection refused]" >&2
         continue
     fi
     if [[ "$HTTP_STATUS" != "200" ]]; then
