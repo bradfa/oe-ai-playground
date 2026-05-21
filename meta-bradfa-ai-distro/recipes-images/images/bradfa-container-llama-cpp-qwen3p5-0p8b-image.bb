@@ -20,8 +20,6 @@ IMAGE_FEATURES = ""
 IMAGE_LINGUAS = ""
 NO_RECOMMENDATIONS = "1"
 
-# TODO: Once unsloth-qwen3p5-gguf recipe is updated with many models, adjust
-# package name to grab the 0.8B BF16 variant
 IMAGE_INSTALL = " \
     base-files \
     base-passwd \
@@ -29,7 +27,7 @@ IMAGE_INSTALL = " \
     catatonit \
     llama-cpp \
     netbase \
-    unsloth-qwen3p5-gguf \
+    unsloth-qwen3p5-0p8b-gguf-bf16 \
 "
 
 # catatonit as PID 1 init shim; -- separates catatonit flags from the supervised program
